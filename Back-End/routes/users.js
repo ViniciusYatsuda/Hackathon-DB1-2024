@@ -23,6 +23,21 @@ router.get('/',async (request,response)=>{
   response.status(400).send('Falha ao consultar os usuarios')
 }})
 
+router.get('/:id', async function(request, response, next) {
+  try{
+     const users = await Product.findByPk(request.params.id);// findbyPK procura direto pela Chave Primaria
+     if(!users){
+      response.status(404).send('Usuario nao encontrado');
+      return;
+     }
+     response.status(200).json(users);
+  }catch(err){
+     console.log(err);
+     response.status(400).send('Falha ao consultar os usuarios')
+  }
+   }
+ );
+
 
 
 module.exports = router;

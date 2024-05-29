@@ -25,6 +25,11 @@ const Product = sequelize.define('produto',{
         type:Sequelize.DataTypes.STRING(255),
         allowNull:false,
     },
+    img:{
+        type:Sequelize.DataTypes.STRING(255),
+        allowNull:true,
+        defaultValue:'Imagem não referenciada',
+    },
     categoria:{
         type:Sequelize.DataTypes.STRING(100),
         allowNull:true,

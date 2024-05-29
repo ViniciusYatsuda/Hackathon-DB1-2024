@@ -7,6 +7,7 @@ import { Card, Col, Row } from 'antd';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import { useState,useEffect } from 'react';
+import {ShoppingCartOutlined , HeartOutlined } from '@ant-design/icons';
 
 const contentStyle = {
   height: '200px',
@@ -195,12 +196,17 @@ function About() {
               <Row gutter={[16, 16]}>
                 {Product.map(product => (
                   <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
-                    <Card
-                        hoverable
-                        cover={<img alt={product.name} src={product.image} />}
-                      >
-                      <Meta title={product.produto} description={product.price} />
-                    </Card>
+                    <Link to={`/produto/${product.id}`}>
+                      <Card
+                          cover={<img alt={product.img} src={product.img} />}
+                          actions={[
+                            <HeartOutlined key="setting" />,
+                            <ShoppingCartOutlined  key="edit" />,
+                          ]}
+                        >
+                        <Meta title={product.produto} description={product.price} />
+                      </Card>
+                    </Link>
                   </Col>
                 ))}
               </Row>

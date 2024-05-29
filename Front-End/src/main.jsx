@@ -5,6 +5,7 @@ import About from './lojaGeral.jsx'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import './css/index.css'
 import Teste from './teste.jsx';
+import Item from './pgItem.jsx';
 
 export default function Apps() {
   return (
@@ -12,7 +13,8 @@ export default function Apps() {
       <Routes>
           <Route path="" element={<App />}/>
           <Route path="/paginaInicial" element={<About />}/>
-          <Route path="/teste" element={<Teste />}>
+          <Route path="/teste" element={<Teste />}/>
+          <Route path="/produto/:id" element={<Item />}>
         </Route>
       </Routes>
     </BrowserRouter>
