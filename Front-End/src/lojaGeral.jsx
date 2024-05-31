@@ -1,183 +1,83 @@
 import './css/lojaGeral.css'
 import { Button } from 'antd';
-import { Input } from 'antd';
-import {Switch} from 'antd';
-import { Carousel } from 'antd';
+import {Input} from 'antd';
+import { Carousel, Image } from 'antd';
 import { Card, Col, Row } from 'antd';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 import { useState,useEffect } from 'react';
 import {ShoppingCartOutlined , HeartOutlined } from '@ant-design/icons';
+import { SearchOutlined } from '@ant-design/icons';
+import NetXoes from "../img/NetXoes.png"
 
 const contentStyle = {
-  height: '200px',
-  color: '#fff',
-  lineHeight: '200px',
-  textAlign: 'center',
-  background: '#364d79',
+  height: '100%',
 };
-
-// const products = [
-//   {
-//     id: 1,
-//     name: 'Tênis Nike',
-//     description: 'Confortável e estiloso.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-nike.jpg',
-//   },
-//   {
-//     id: 2,
-//     name: 'Tênis Adidas',
-//     description: 'Design moderno e elegante.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-adidas.jpg',
-//   },
-//   {
-//     id: 3,
-//     name: 'Tênis Puma',
-//     description: 'Leve e confortável.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-puma.jpg',
-//   },
-//   {
-//     id: 4,
-//     name: 'Tênis Reebok',
-//     description: 'Ideal para corridas.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-reebok.jpg',
-//   },
-//   {
-//     id: 5,
-//     name: 'Tênis Asics',
-//     description: 'Alta performance e durabilidade.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-asics.jpg',
-//   },
-//   {
-//     id: 6,
-//     name: 'Tênis Mizuno',
-//     description: 'Conforto e estabilidade.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-mizuno.jpg',
-//   },
-//   {
-//     id: 7,
-//     name: 'Tênis New Balance',
-//     description: 'Estilo clássico e conforto.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-new-balance.jpg',
-//   },
-//   {
-//     id: 8,
-//     name: 'Tênis Under Armour',
-//     description: 'Tecnologia avançada para desempenho.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-under-armour.jpg',
-//   },
-//   {
-//     id: 9,
-//     name: 'Tênis Skechers',
-//     description: 'Conforto e estilo para o dia a dia.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-skechers.jpg',
-//   },
-//   {
-//     id: 10,
-//     name: 'Tênis Fila',
-//     description: 'Design moderno e esportivo.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-fila.jpg',
-//   },
-//   {
-//     id: 11,
-//     name: 'Tênis Oakley',
-//     description: 'Resistência e durabilidade.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-oakley.jpg',
-//   },
-//   {
-//     id: 12,
-//     name: 'Tênis Converse',
-//     description: 'Clássico e versátil.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-converse.jpg',
-//   },
-//   {
-//     id: 13,
-//     name: 'Tênis Vans',
-//     description: 'Estilo skatista e conforto.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-vans.jpg',
-//   },
-//   {
-//     id: 14,
-//     name: 'Tênis Hoka One One',
-//     description: 'Ideal para longas distâncias.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-hoka-one-one.jpg',
-//   },
-//   {
-//     id: 15,
-//     name: 'Tênis Brooks',
-//     description: 'Alta performance para corredores.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-brooks.jpg',
-//   },
-//   {
-//     id: 16,
-//     name: 'Tênis Salomon',
-//     description: 'Ideal para trilhas e aventuras.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-salomon.jpg',
-//   },
-//   {
-//     id: 17,
-//     name: 'Tênis Saucony',
-//     description: 'Estabilidade e conforto.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-saucony.jpg',
-//   },
-//   {
-//     id: 18,
-//     name: 'Tênis Merrell',
-//     description: 'Durabilidade e conforto para trilhas.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-merrell.jpg',
-//   },
-//   {
-//     id: 19,
-//     name: 'Tênis Altra',
-//     description: 'Design inovador e conforto.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-altra.jpg',
-//   },
-//   {
-//     id: 20,
-//     name: 'Tênis La Sportiva',
-//     description: 'Ideal para atividades ao ar livre.',
-//     image: 'https://link-para-imagem-do-produto.com/tenis-la-sportiva.jpg',
-//   }
-// ];
 
 const { Meta } = Card;
 
 function About() {
   
-    const [Product, setProduct] = useState([]);
+  const handleActionClick = (id) => {
+    // Recupera a lista de favoritos do localStorage
+    let favoritos = JSON.parse(localStorage.getItem('Favoritos')) || [];
   
-    useEffect(() => {
+    // Verifica se o ID já está na lista
+    if (favoritos.includes(id)) {
+      // Se o ID já está na lista, remove-o
+      favoritos = favoritos.filter(favoritoId => favoritoId !== id);
+    } else {
+      // Se o ID não está na lista, adiciona-o
+      favoritos.push(id);
+    }
+  
+    // Atualiza o localStorage com a nova lista de favoritos
+    localStorage.setItem('Favoritos', JSON.stringify(favoritos));
+  
+    console.log('Favoritos atualizados:', favoritos);
+  };
+
+  const [Product, setProduct] = useState([]);
+  
+  useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await axios.get('http://localhost:3000/users');
+          const response = await axios.get('http://localhost:3000/users/home');
           setProduct(response.data);
         } catch (error) {
           console.error('Erro ao buscar itens do carrossel:', error);
         }
       };
       fetchData();
-    }, []);
+  }, []);
   
   return (
-    <div className="slide-up">
-      <header>
-        <div className="search-bar">
-          <Input type="text" placeholder="Pesquisar..." />
-          <Button>Pesquisar</Button>
-        </div>
-        <div className="header-buttons">
-          <Button>Favoritos</Button>
-          <Link to='/teste'><Button>Loja</Button></Link>
-          <Switch>AA</Switch>
-        </div>
+    
+     <>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#3d3d3d', padding: '10px' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Image src={NetXoes}  preview={false} height={'100px'}/>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'space-center' }}>
+              <Input placeholder="Pesquisar..." style={{ marginRight: '10px', width: '100%' }} />
+              <Button icon={<SearchOutlined />}>Search</Button>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Button type="default" style={{ marginRight: '10px' }}>Favoritos</Button>
+              <Link to="/teste">
+                <Button type="default" style={{ marginRight: '10px' }}>Loja</Button>
+              </Link>
+              <Button type="default">AA</Button>
+            </div>
       </header>
-      <body>
+      <body> 
+        <div className="slide-up">
         <div  className='titulo-lancamento'>
           LANÇAMENTOS
         </div>
         <Carousel arrows infinite={false}>
           <div>
-            <h3 style={contentStyle}>1</h3>
+            <h3 style={contentStyle}><Image preview={false} src='https://brand.assets.adidas.com/image/upload/f_auto,q_auto,fl_lossy/if_w_gt_1920,w_1920/br_horizontal_ss24_dia_dos_namorados_mh_hp_large_d_a5a0faa0a7.jpg' /></h3>
           </div>
           <div>
             <h3 style={contentStyle}>2</h3>
@@ -196,17 +96,16 @@ function About() {
               <Row gutter={[16, 16]}>
                 {Product.map(product => (
                   <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
-                    <Link to={`/produto/${product.id}`}>
                       <Card
-                          cover={<img alt={product.img} src={product.img} />}
-                          actions={[
-                            <HeartOutlined key="setting" />,
+                          actions={[ 
+                            <HeartOutlined onClick={() => handleActionClick(product.id)} key="setting" />,
                             <ShoppingCartOutlined  key="edit" />,
-                          ]}
-                        >
+                          ]}>
+                        <Link to={`/produto/${product.id}`}>
+                          <Image src={product.img}></Image>
+                        </Link>
                         <Meta title={product.produto} description={product.price} />
                       </Card>
-                    </Link>
                   </Col>
                 ))}
               </Row>
@@ -216,8 +115,9 @@ function About() {
           2
         </div>
       </div>
+      </div>
       </body>
-    </div>
+    </>
   );
 }
 

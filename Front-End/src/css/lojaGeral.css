@@ -1,28 +1,9 @@
 header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 200px 200px 200px 200px;
     padding: 10px;
     background-color: #3d3d3d;
   }
-.search-bar {
-    display: flex;
-    align-items: center;
-}
-  
-.search-bar input[type="text"] {
-    margin-right: 10px;
-}
-  
-.header-buttons {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-}
-  
-.header-buttons button {
-    margin-right: 10px;
-}
 
 body{
   text-align: left;

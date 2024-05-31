@@ -5,12 +5,12 @@ import './css/App.css'
 import './css/reset.css'
 import { Link } from "react-router-dom"
 
-function paginaInicial() {
+function PaginaInicial() {
   return (
     <>
       <div className="slide-up">
         <a  target="_blank">
-          <Link to='/paginaInicial'>
+          <Link to='/lojaGeral'>
             <img src={NetXoes} className="logo react" alt="React logo" />
           </Link>
         </a>
@@ -19,4 +19,4 @@ function paginaInicial() {
   )
 }
 
-export default paginaInicial
+export default PaginaInicial

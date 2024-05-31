@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Typography, Image, Col, Row } from 'antd';
 import { useState, useEffect } from "react";
 import axios from "axios";
-import ParcelamentoSelect from './parcelasSelect'
+import ParcelamentoSelect from './Parcelas/parcelasSelect'
 
 function Item() {
   const productId = location.pathname.split('/').pop(); // Extrai o ID do produto da URL
@@ -11,8 +11,6 @@ function Item() {
   //   console.log(`selected ${value}`);
   // };
   const { Title } = Typography;
-  
-  
   
   const [product, setProduct] = useState(null);
   useEffect(() => {
@@ -34,7 +32,7 @@ function Item() {
           <Input type="text" placeholder="Pesquisar..." />
           <Button>Pesquisar</Button>
         </div>
-        <div className="header-buttons">
+        <div className="header-buttons">  
           <Button>Favoritos</Button>
           <Link to='/teste'><Button>Loja</Button></Link>
           <Switch>AA</Switch>
@@ -45,10 +43,10 @@ function Item() {
           {product && (
             <Row gutter={[16, 16]}>
               <Col span={16}>
-                <div style={{ height: '100%', borderStyle: 'solid', borderRadius: '2rem', backgroundColor: 'lightpink', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ height: '100%', borderStyle: 'solid', borderRadius: '10rem', backgroundColor: 'lightpink', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                   <Title style={{margin:'0',fontSize:'40px'}}>R$ {product.price},00</Title>
                   <div>
-                    <Title level={2} style={{}}>Selecione o parcelamento</Title>
+                    <Title level={2} style={{padding:'20px'}}>Selecione o parcelamento</Title>
                     <ParcelamentoSelect valor={product.price} />
                   </div>
                 </div>
