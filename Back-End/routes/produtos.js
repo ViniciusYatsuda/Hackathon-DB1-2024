@@ -15,7 +15,6 @@ router.post('/',async (request,response)=>{
   response.status(400).send('Falha ao consultar os usuarios')
 }})
 
-
 //localhost:3000/users
 router.get('/home',async (request,response)=>{
   try{
@@ -25,7 +24,6 @@ router.get('/home',async (request,response)=>{
   console.log(err);
   response.status(400).send('Falha ao consultar os usuarios')
 }})
-
 
 //localhost:3000/users/favoritos?idsProduto=1,2 TUDO que esta depois do ? é parametro
 router.get('/favoritos', async function(request, response) {
@@ -47,7 +45,6 @@ router.get('/favoritos', async function(request, response) {
 }
 });
 
-
 //localhost:3000/users/:id
 router.get('/:id', async function(request, response, next) {
   try{
@@ -63,7 +60,6 @@ router.get('/:id', async function(request, response, next) {
   }
    }
  );
-
 
  router.get('/', async (request, response) => {
   try {
@@ -92,6 +88,5 @@ router.get('/:id', async function(request, response, next) {
     response.status(500).send('Erro ao consultar os produtos');
   }
 });
-
 
 module.exports = router;

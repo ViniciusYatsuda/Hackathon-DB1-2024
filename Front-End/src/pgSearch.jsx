@@ -1,4 +1,3 @@
-
 import { Card, Col, Row } from 'antd';
 import { useState,useEffect } from 'react';
 import axios from 'axios'
@@ -7,6 +6,7 @@ import {Input, Image} from 'antd';
 import NetXoes from "../img/NetXoes.png";
 import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { HeartOutlined } from '@ant-design/icons';
 
 const { Meta } = Card;
 
@@ -21,27 +21,36 @@ function Search() {
 
   const handleSearchClick = () => {
     console.log('Valor do input:', searchValue);
-    setShouldFetch(true); // Define shouldFetch como true para disparar o useEffect
+    setShouldFetch(true); 
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axios.get(`http://localhost:3000/users/`, {
-          params: { search: searchValue } // Passa o valor da busca como parâmetro
+          params: { search: searchValue }
         });
         setProducts(response.data);
       } catch (error) {
         console.error('Erro ao buscar itens:', error);
       } finally {
-        setShouldFetch(false); // Define shouldFetch como false para evitar novas buscas
+        setShouldFetch(false);
       }
     };
-    
     if (shouldFetch) {
       fetchData();
     }
   }, [shouldFetch, searchValue]);
+
+  const handleActionClick = (id) => {
+    let favoritos = JSON.parse(localStorage.getItem('Favoritos')) || [];
+    if (favoritos.includes(id)) {
+      favoritos = favoritos.filter(favoritoId => favoritoId !== id);
+    } else {
+      favoritos.push(id);
+    }
+    localStorage.setItem('Favoritos', JSON.stringify(favoritos));
+  };
 
 
   return (
@@ -52,30 +61,30 @@ function Search() {
             </div>
             <div style={{ display: 'flex', alignItems: 'space-center' }}>
               <Input onChange={handleInputChange} value={searchValue} placeholder="Pesquisar..." style={{ marginRight: '10px', width: '100%' }} />
-              <Button onClick={handleSearchClick} icon={<SearchOutlined />}>Search</Button>
+              <Link to={'http://localhost:5173/busca'}><Button onClick={handleSearchClick} icon={<SearchOutlined />}>Search</Button></Link>
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Button type="default" style={{ marginRight: '10px' }}>Favoritos</Button>
-              <Link to="/teste">
-                <Button type="default" style={{ marginRight: '10px' }}>Loja</Button>
-              </Link>
-              <Button type="default">AA</Button>
+                <Link to="/teste">
+                  <Button type="default" style={{ marginRight: '10px' }}>Loja</Button>
+                </Link>
             </div>
       </header>
       <div  style={{ padding: '30px' }}>
-      <Row gutter={[16, 16]}>
+        <Row gutter={[16, 16]}>
                 {Product.map(product => (
                   <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
                       <Card
                           cover={<img alt={product.img} src={product.img} />}
                           actions={[
+                            <HeartOutlined onClick={() => handleActionClick(product.id)} key="setting" />,
                           ]}
                         >
                         <Meta title={product.produto} description={product.price} />
                       </Card>
                   </Col>
                 ))}
-              </Row>
+          </Row>
       </div>
     </>
   )

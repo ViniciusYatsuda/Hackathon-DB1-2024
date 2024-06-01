@@ -1,9 +1,11 @@
-import { Input, Button, Switch } from "antd"; 
+import { Input, Button } from "antd"; 
 import { Link } from 'react-router-dom';
 import { Typography, Image, Col, Row } from 'antd';
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ParcelamentoSelect from './Parcelas/parcelasSelect'
+import NetXoes from "../img/NetXoes.png"
+import { SearchOutlined } from '@ant-design/icons';
 
 function Item() {
   const productId = location.pathname.split('/').pop(); // Extrai o ID do produto da URL
@@ -16,7 +18,7 @@ function Item() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`http://localhost:3000/users/${productId}`);
+        const response = await axios.get(`http://localhost:3000/produtos/${productId}`);
         setProduct(response.data);
       } catch (error) {
         console.error('Erro ao buscar o produto:', error);
@@ -27,16 +29,21 @@ function Item() {
 
   return (
     <div>
-      <header>
-        <div className="search-bar">
-          <Input type="text" placeholder="Pesquisar..." />
-          <Button>Pesquisar</Button>
-        </div>
-        <div className="header-buttons">  
-          <Button>Favoritos</Button>
-          <Link to='/teste'><Button>Loja</Button></Link>
-          <Switch>AA</Switch>
-        </div>
+      <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#3d3d3d', padding: '10px 50px' }}>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Image src={NetXoes}  preview={false} height={'100px'}/>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'space-center' }}>
+              <Input placeholder="Pesquisar..." style={{ marginRight: '10px', width: '100%' }} />
+              <Button icon={<SearchOutlined />}>Search</Button>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <Button type="default" style={{ marginRight: '10px' }}>Favoritos</Button>
+              <Link to="/teste">
+                <Button type="default" style={{ marginRight: '10px' }}>Loja</Button>
+              </Link>
+              <Button type="default">AA</Button>
+            </div>
       </header>
       <body>
         <div style={{ padding: '20px 12px'}}>
