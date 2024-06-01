@@ -18,6 +18,15 @@ function About() {
   const [shouldFetch, setShouldFetch] = useState(false);
   const [showCarousel, setShowCarousel] = useState(true);
   const [showAll, setShowAll] = useState([]);
+  const [activeSearch, setActiveSearch] = useState('');
+
+  const shuffleArray = (array) => {
+    return array.sort(() => Math.random() - 0.5);
+  };
+
+  const limitArray = (array, limit) => {
+    return array.slice(0, limit);
+  };
 
   const handleActionClick = (id) => {
     let favoritos = JSON.parse(localStorage.getItem('Favoritos')) || [];
@@ -36,8 +45,11 @@ function About() {
   const handleSearchClick = () => {
     console.log('Valor do input:', searchValue);
     setShouldFetch(true);
+    setActiveSearch(searchValue);
     if (searchValue === '') {
-      setProducts(showAll);
+      const shuffledProducts = shuffleArray(showAll);
+      const limitedProducts = limitArray(shuffledProducts, 8);
+      setProducts(limitedProducts);
       setShowCarousel(true);
     } else {
       setShowCarousel(false);
@@ -48,8 +60,10 @@ function About() {
     const fetchData = async () => {
       try {
         const response = await axios.get('http://localhost:3000/produtos/home');
-        setProducts(response.data);
-        setShowAll(response.data);
+        const shuffledProducts = shuffleArray(response.data);
+        const limitedProducts = limitArray(shuffledProducts, 8);
+        setProducts(limitedProducts);
+        setShowAll(shuffledProducts);
       } catch (error) {
         console.error('Erro ao buscar itens do carrossel:', error);
       }
@@ -73,7 +87,9 @@ function About() {
       };
       fetchData();
     } else if (shouldFetch && searchValue === '') {
-      setProducts(showAll);
+      const shuffledProducts = shuffleArray(showAll);
+      const limitedProducts = limitArray(shuffledProducts, 8);
+      setProducts(limitedProducts);
       setShouldFetch(false);
     }
   }, [shouldFetch, searchValue, showAll]);
@@ -120,18 +136,16 @@ function About() {
           </>
         )}
         <div>
-          <h2 className="titulo-lancamento">EM DESTAQUE</h2>
+          <h2 className="titulo-lancamento">{activeSearch === '' ? 'EM DESTAQUE' : activeSearch}</h2>
           <div style={{ padding: '20px' }}>
             <Row gutter={[16, 16]}>
               {products.map(product => (
                 <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
                   <Card
-                  
                     actions={[
                       <HeartOutlined onClick={() => handleActionClick(product.id)} key="setting" />,
-                      <ShoppingCartOutlined key="edit" />,                      
-                    ]
-                    }
+                      <ShoppingCartOutlined key="edit" />,
+                    ]}
                   >
                     <Link to={`/produto/${product.id}`}>
                       <Image src={product.img} />
@@ -149,3 +163,4 @@ function About() {
 }
 
 export default About;
+

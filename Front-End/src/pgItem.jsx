@@ -6,6 +6,8 @@ import axios from "axios";
 import ParcelamentoSelect from './Parcelas/parcelasSelect'
 import NetXoes from "../img/NetXoes.png"
 import { SearchOutlined } from '@ant-design/icons';
+import './css/lojaGeral.css';
+import Tamanho from "./Tamanho/tamanho";
 
 function Item() {
   const productId = location.pathname.split('/').pop(); // Extrai o ID do produto da URL
@@ -38,11 +40,10 @@ function Item() {
               <Button icon={<SearchOutlined />}>Search</Button>
             </div>
             <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Button type="default" style={{ marginRight: '10px' }}>Favoritos</Button>
+              <Button type="default" style={{ marginRight: '10px' }}>Loja</Button>
               <Link to="/teste">
-                <Button type="default" style={{ marginRight: '10px' }}>Loja</Button>
+                <Button type="default" style={{ marginRight: '10px' }}>Favoritos</Button>
               </Link>
-              <Button type="default">AA</Button>
             </div>
       </header>
       <body>
@@ -51,10 +52,11 @@ function Item() {
             <Row gutter={[16, 16]}>
               <Col span={16}>
                 <div style={{ height: '100%', borderStyle: 'solid', borderRadius: '10rem', backgroundColor: 'lightpink', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                  <Title style={{margin:'0',fontSize:'40px'}}>R$ {product.price},00</Title>
+                    <Title style={{padding:'30px 0 0 0',fontSize:'40px',fontFamily: "Roboto",fontWeight: '300',fontStyle: 'normal'}}>R$ {product.price},00</Title>
                   <div>
-                    <Title level={2} style={{padding:'20px'}}>Selecione o parcelamento</Title>
+                    <Title level={2} style={{padding:'20px',fontFamily: "Roboto",fontWeight: '300',fontStyle: 'italic'}}>Selecione o parcelamento</Title>
                     <ParcelamentoSelect valor={product.price} />
+                    <Tamanho id={Number(product.categoria)} />
                   </div>
                 </div>
               </Col>

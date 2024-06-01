@@ -18,11 +18,11 @@ const ParcelamentoSelect = ({ valor }) => {
 
   return (
     <Select
-      defaultValue={options.length > 0 ? options[0].value : null}
-      style={{ width: 600 }}
-      onChange={handleChange}
-      options={options}
-    />
+    defaultValue="Escolha quantas parcelas"
+    style={{ width: '600px'}}
+    onChange={handleChange}
+    options={options}
+  />
   );
 };
 
