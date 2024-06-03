@@ -18,8 +18,8 @@ const ParcelamentoSelect = ({ valor }) => {
 
   return (
     <Select
-    defaultValue="Escolha quantas parcelas"
-    style={{ width: '600px'}}
+    defaultValue="R$"
+    style={{ width: '250px'}}
     onChange={handleChange}
     options={options}
   />

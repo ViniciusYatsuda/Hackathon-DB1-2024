@@ -1,8 +1,7 @@
 
-import { Select, Typography } from 'antd';
+import { Select } from 'antd';
 import PropTypes from 'prop-types';
 
-const { Title } = Typography;
 
 const { Option } = Select;
 
@@ -17,10 +16,9 @@ const Tamanho = ({ id }) => {
       case 1:
         return (
             <div>
-            <Title level={2} style={{padding:'30px 20px 0px 20px',fontFamily: "Roboto",fontWeight: '300',fontStyle: 'italic'}}>Selecione o tamanho</Title> 
             <Select
-                defaultValue="Escolha o tamanho"
-                style={{ width: 120 }}
+                defaultValue="33"
+                style={{ width: 250 }}
                 onChange={handleChange}
                 >
                 <Option value="33">33</Option>
@@ -42,10 +40,9 @@ const Tamanho = ({ id }) => {
         case 2:
         return (
             <div>
-            <Title level={2} style={{padding:'30px 20px 0px 20px',fontFamily: "Roboto",fontWeight: '300',fontStyle: 'italic'}}>Selecione o tamanho</Title> 
             <Select
                 defaultValue="33"
-                style={{ width: 120 }}
+                style={{ width: 250 }}
                 onChange={handleChange}
                 >
                 <Option value="33">PP</Option>
