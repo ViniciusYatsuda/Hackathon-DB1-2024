@@ -2,10 +2,10 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import About from './lojaGeral.jsx'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Teste from './teste.jsx';
 import Item from './pgItem.jsx';
 import PaginaInicial from './pgLogo.jsx'
 import Search from './pgSearch.jsx';
+import Fav from './pgFav.jsx';
 
 
 export default function Apps() {
@@ -14,7 +14,7 @@ export default function Apps() {
       <Routes>
           <Route path="" element={<PaginaInicial />}/>
           <Route path="/lojaGeral" element={<About />}/>
-          <Route path="/teste" element={<Teste />}/>
+          <Route path="/fav" element={<Fav />}/>
           <Route path="/busca" element={<Search />}/>
           <Route path="/produto/:id" element={<Item />}>
    

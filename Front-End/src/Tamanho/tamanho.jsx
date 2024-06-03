@@ -17,7 +17,7 @@ const Tamanho = ({ id }) => {
       case 1:
         return (
             <div>
-            <Title level={2} style={{padding:'20px',fontFamily: "Roboto",fontWeight: '300',fontStyle: 'italic'}}>Selecione o tamanho</Title> 
+            <Title level={2} style={{padding:'30px 20px 0px 20px',fontFamily: "Roboto",fontWeight: '300',fontStyle: 'italic'}}>Selecione o tamanho</Title> 
             <Select
                 defaultValue="Escolha o tamanho"
                 style={{ width: 120 }}
@@ -42,7 +42,7 @@ const Tamanho = ({ id }) => {
         case 2:
         return (
             <div>
-            <Title level={2} style={{padding:'20px',fontFamily: "Roboto",fontWeight: '300',fontStyle: 'italic'}}>Selecione o tamanho</Title> 
+            <Title level={2} style={{padding:'30px 20px 0px 20px',fontFamily: "Roboto",fontWeight: '300',fontStyle: 'italic'}}>Selecione o tamanho</Title> 
             <Select
                 defaultValue="33"
                 style={{ width: 120 }}

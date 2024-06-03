@@ -1,9 +1,9 @@
 import './css/lojaGeral.css';
 import { Button, Input, Carousel, Image, Card, Col, Row } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { ShoppingCartOutlined, HeartOutlined, SearchOutlined } from '@ant-design/icons';
+import { ShoppingCartOutlined, HeartOutlined, SearchOutlined,HeartFilled } from '@ant-design/icons';
 import NetXoes from "../img/NetXoes.png";
 
 const { Meta } = Card;
@@ -15,10 +15,8 @@ const contentStyle = {
 function About() {
   const [products, setProducts] = useState([]);
   const [searchValue, setSearchValue] = useState('');
-  const [shouldFetch, setShouldFetch] = useState(false);
-  const [showCarousel, setShowCarousel] = useState(true);
-  const [showAll, setShowAll] = useState([]);
-  const [activeSearch, setActiveSearch] = useState('');
+  const [activeSearch] = useState('');
+  var [favoritos, setFavoritos] = useState([]);
 
   const shuffleArray = (array) => {
     return array.sort(() => Math.random() - 0.5);
@@ -29,14 +27,17 @@ function About() {
   };
 
   const handleActionClick = (id) => {
-    let favoritos = JSON.parse(localStorage.getItem('Favoritos')) || [];
+    let updatedFavoritos;
     if (favoritos.includes(id)) {
-      favoritos = favoritos.filter(favoritoId => favoritoId !== id);
+      updatedFavoritos = favoritos.filter(favoritoId => favoritoId !== id);
     } else {
-      favoritos.push(id);
+      updatedFavoritos = [...favoritos, id];
     }
-    localStorage.setItem('Favoritos', JSON.stringify(favoritos));
-  };
+    setFavoritos(updatedFavoritos);
+    localStorage.setItem('Favoritos', JSON.stringify(updatedFavoritos));
+};
+
+  const navigate = useNavigate();
 
   const handleInputChange = (e) => {
     setSearchValue(e.target.value);
@@ -44,55 +45,25 @@ function About() {
 
   const handleSearchClick = () => {
     console.log('Valor do input:', searchValue);
-    setShouldFetch(true);
-    setActiveSearch(searchValue);
-    if (searchValue === '') {
-      const shuffledProducts = shuffleArray(showAll);
-      const limitedProducts = limitArray(shuffledProducts, 8);
-      setProducts(limitedProducts);
-      setShowCarousel(true);
-    } else {
-      setShowCarousel(false);
-    }
+    navigate(`/busca?search=${searchValue}`);
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setFavoritos(JSON.parse(localStorage.getItem('Favoritos')) || [])
+        setFavoritos = favoritos.map(favoritoId => Number(favoritoId))
+        console.log(favoritos)
         const response = await axios.get('http://localhost:3000/produtos/home');
         const shuffledProducts = shuffleArray(response.data);
         const limitedProducts = limitArray(shuffledProducts, 8);
         setProducts(limitedProducts);
-        setShowAll(shuffledProducts);
       } catch (error) {
         console.error('Erro ao buscar itens do carrossel:', error);
       }
     };
     fetchData();
   }, []);
-
-  useEffect(() => {
-    if (shouldFetch && searchValue !== '') {
-      const fetchData = async () => {
-        try {
-          const response = await axios.get('http://localhost:3000/produtos/', {
-            params: { search: searchValue },
-          });
-          setProducts(response.data);
-        } catch (error) {
-          console.error('Erro ao buscar itens:', error);
-        } finally {
-          setShouldFetch(false);
-        }
-      };
-      fetchData();
-    } else if (shouldFetch && searchValue === '') {
-      const shuffledProducts = shuffleArray(showAll);
-      const limitedProducts = limitArray(shuffledProducts, 8);
-      setProducts(limitedProducts);
-      setShouldFetch(false);
-    }
-  }, [shouldFetch, searchValue, showAll]);
 
   return (
     <>
@@ -106,13 +77,12 @@ function About() {
         </div>
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Button type="default" style={{ marginRight: '10px' }}>Loja</Button>
-          <Link to="/teste">
+          <Link to="/Fav">
             <Button type="default" style={{ marginRight: '10px' }}>Favoritos</Button>
           </Link>
         </div>
       </header>
       <div className="slide-up">
-        {showCarousel && (
           <>
             <div className="titulo-lancamento">
               LANÇAMENTOS
@@ -134,7 +104,6 @@ function About() {
               </div>
             </Carousel>
           </>
-        )}
         <div>
           <h2 className="titulo-lancamento">{activeSearch === '' ? 'EM DESTAQUE' : activeSearch}</h2>
           <div style={{ padding: '20px' }}>
@@ -143,8 +112,12 @@ function About() {
                 <Col key={product.id} xs={24} sm={12} md={8} lg={6}>
                   <Card
                     actions={[
-                      <HeartOutlined onClick={() => handleActionClick(product.id)} key="setting" />,
-                      <ShoppingCartOutlined key="edit" />,
+                      favoritos.includes(product.id) ? (
+                        <HeartFilled onClick={() => handleActionClick(product.id)} key="heart" />
+                      ) : (
+                        <HeartOutlined onClick={() => handleActionClick(product.id)} key="heart" />
+                      ),
+                      <ShoppingCartOutlined key="cart" />,
                     ]}
                   >
                     <Link to={`/produto/${product.id}`}>
