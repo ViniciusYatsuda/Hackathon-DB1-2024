@@ -147,6 +147,23 @@ function Item() {
             }
         </div>
       </body>
+      <footer style={{ display: 'flex', justifyContent: 'space-between', padding: '60px 50px', backgroundColor: '#3d3d3d', color: '#fff' }}>
+        <div className='titulo-lancamento'>
+            Desenvolvido por Vinicius Yatsuda
+            <br/>
+            <br/>
+            como projeto de Hackathon 
+            <br/>
+            <br/>
+            para o BootCamp DB1 2024
+          </div>
+          <div className='titulo-lancamento'>
+            NetXoes@sac.br
+            <br/>
+            <br/> 
+            (55)+44 12345-6789
+          </div>
+      </footer>
     </div>
   );
 }
